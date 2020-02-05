@@ -1,17 +1,22 @@
 function setADB {
-    #Configura o adb, os arquivos do adb tem q esta na pasta"adbFiles"
     $path = get-location
-    $path = ";"+$path.toString()+"\Sfiles\adbFiles"
-    $env:Path += $path
-    
+    $path = ";"+$path.toString()+"\Sfiles"
+    $env:Path += $path   
 }
 
 function getCarries{
-    $ca = adb  shell dumpsys secims | findstr /r mSimMno
-    $t = $ca.substring($ca.indexOf("mSimMno:")+9)#Corrigir isso provavelmente vai retornar 
-                                                                 #um array com mais de 1 SIM card.
+    $isub = adb  shell dumpsys isub
+    $index = $isub.indexOf(' ActiveSubInfoList:')
 
-    "Carries: $t" >> Versions.txt
+    if($isub[$index+1] -eq '++++++++++++++++++++++++++++++++'){
+        $sim = "N/A"
+    }else{
+        $sim = $isub[$index+1].substring($isub[$index+1].indexOf('displayName=')+12,$isub[$index+1].indexOf('carrierName=') - ($isub[$index+1].indexOf('displayName=')+12));
+        if($isub[$index+2] -ne '++++++++++++++++++++++++++++++++'){
+            $sim += "`t,`t"+$isub[$index+2].substring($isub[$index+2].indexOf('displayName=')+12,$isub[$index+2].indexOf('carrierName=') - ($isub[$index+2].indexOf('displayName=')+12));
+        }
+    }
+    "Carriers:$sim" >> Versions.txt
 }
 
 function getModel() {
@@ -53,12 +58,12 @@ function getAc(){
 
 function generateTemplet {
     "Sample ID:" >> Versions.txt
-    "Qtd Pass:" >> Versions.txt
+    "Pass:" >> Versions.txt
     getModel
     getOSVersion
     getCarries
     getAc
-    "`n`n" >> Versions.txt
+    "`n" >> Versions.txt
 }
 
 function ckDevice(){
@@ -81,8 +86,6 @@ function startSC {
     "`tIncializando, por favor, ative as opções de depuracao USB do device."
     "`tEsperando o device..."
     ckDevice
-    ckFile
-    generateTemplet
 }
 
 function openV {
@@ -528,7 +531,7 @@ function MMenu {
     "`n `t4- Versao de Commom"
     "`n `t5- Versao de Settings"
     "`n `t6- Todas as versoes"
-    "`n `t7- Apenas templete"
+    "`n `t7- Apenas template"
     "`n `t0- Finalizar script"
     
     "`n `tInforme a opcao desejada:`t"
@@ -537,9 +540,12 @@ function MMenu {
 }
 
 function svc(){
-    startSC    
+    startSC
     while(1){
         MMenu
+        #ckFile
+        #generateTemplet
+
     }
 }
 
