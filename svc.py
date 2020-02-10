@@ -28,7 +28,6 @@ def getCarriers():
 
 def filtraStringDeProcesso(bi):
     st = str(bi)
-    st = st.split("'")[1]
     st = st.split("\\")[0]
     return st
 
@@ -72,3 +71,11 @@ def getAccounts():
             return extractAccount(aString);
         else:
             return "Accounts: " 
+
+def getAppVersion(pName,Name):
+    pkgv = subprocess.check_output(['adb','shell','dumpsys','package',pName,'|','grep','versionName'],text=True);
+    versionPosI = pkgv.find('=')+1;
+    versionPosF = pkgv.find('\n',versionPosI-1);
+    version = pkgv[versionPosI:versionPosF]
+
+    return Name+": "+version
