@@ -6,17 +6,19 @@ function setADB {
 
 function getCarries{
     $isub = adb  shell dumpsys isub
-    $index = $isub.indexOf(' ActiveSubInfoList:')
-
-    if($isub[$index+1] -eq '++++++++++++++++++++++++++++++++'){
-        $sim = "N/A"
-    }else{
-        $sim = $isub[$index+1].substring($isub[$index+1].indexOf('displayName=')+12,$isub[$index+1].indexOf('carrierName=') - ($isub[$index+1].indexOf('displayName=')+12));
-        if($isub[$index+2] -ne '++++++++++++++++++++++++++++++++'){
-            $sim += "`t,`t"+$isub[$index+2].substring($isub[$index+2].indexOf('displayName=')+12,$isub[$index+2].indexOf('carrierName=') - ($isub[$index+2].indexOf('displayName=')+12));
-        }
+    $s1 = $isub[$isub.indexOf(' ActiveSubInfoList:')+1]
+    $s2 = $isub[$isub.indexOf(' ActiveSubInfoList:')+2]
+    
+    if($s1 -ne '++++++++++++++++++++++++++++++++'){
+        $sim1 = $s1.substring($s1.indexOf('displayName=')+12,$s1.indexOf('carrierName=') - ($s1.indexOf('displayName=')+12));
     }
-    "Carriers:$sim" >> Versions.txt
+    if($s2 -ne '++++++++++++++++++++++++++++++++'){
+        $sim2 = $s2.substring($s2.indexOf('displayName=')+12, $s2.indexOf('carrierName=') - ($s2.indexOf('displayName=')+12));
+        $sim2 = ", $sim2";
+    }
+
+    "Carriers:$sim1$sim2" >> Versions.txt
+    
 }
 
 function getModel() {
@@ -81,11 +83,12 @@ function ckDevice(){
 }
 
 function startSC {
-    setADB
     DrawScreen
     "`tIncializando, por favor, ative as opções de depuracao USB do device."
     "`tEsperando o device..."
     ckDevice
+    ckFile
+    generateTemplet
 }
 
 function openV {
@@ -540,11 +543,10 @@ function MMenu {
 }
 
 function svc(){
-    startSC
+    setADB
     while(1){
+        startSC
         MMenu
-        #ckFile
-        #generateTemplet
 
     }
 }
