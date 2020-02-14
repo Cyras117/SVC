@@ -1,5 +1,6 @@
 #!/usr/bin/python3.8
-import subprocess;
+import subprocess
+import tkinter
 
 def extractSim(stC):
     stCStart = stC.find('displayName=')+12;
@@ -25,7 +26,6 @@ def getCarriers():
         s1 = extractSim(arC[0]);
         s2 = extractSim(arC[1]);
         return "Carriers: "+s1+", "+s2
-
 
 def getModel():
     model = subprocess.check_output(['adb','shell','getprop','ro.product.model'],text=True);
@@ -59,7 +59,6 @@ def extractAccount(aString):
         accounts += ac+'\n';
     return accounts
 
-
 def getAccounts():
         aString = subprocess.check_output(['adb','shell','dumpsys','account'],text=True);
         tc = aString.find('Accounts:')+10;
@@ -76,9 +75,11 @@ def getAppVersion(pName,Name):
 
     return Name+": "+version
 
+def wrap():#receber as configs do temp):
+
 
 def getSettingsInfo(op):
-    aVersions = []
+    aVersions = list()
     if(getOS == 'Android Version: 8.1'):
         #caso seja android go, falta tratar isso ainda
         return
@@ -113,17 +114,4 @@ def getSettingsInfo(op):
         aVersions.append(getAppVersion('br.com.bb.android', 'Banco do Brasil'))
         aVersions.append(getAppVersion('br.cm.gabba.Caixa','Caixa'))
         aVersions.append(getAppVersion('com.itau','Itau'))
-    return aVersions
-
-
-def getAppsInfo(qp):
-        getv -p com.samsung.android.calendar  -n Calendario
-        getv -p com.sec.android.app.samsungapps  -n "Galaxy Apps/Store"
-        getv -p com.samsung.android.fmm  -n FMM
-        getv -p com.samsung.android.app.spage  -n "Samsung daily/Bixby Home"
-        getv -p com.gm.decolar  -n Decolar
-        getv -p com.ebay.mobile  -n Ebay
-        getv -p com.tencent.ig  -n Pubg
-        getv -p com.ubercab  -n Uber
-        getv -p com.taxis99  -n "99"
-        getv -p com.samsung.android.app.watchmanager  -n "Galaxy Wearable"
+    

@@ -6,19 +6,17 @@ function setADB {
 
 function getCarries{
     $isub = adb  shell dumpsys isub
-    $s1 = $isub[$isub.indexOf(' ActiveSubInfoList:')+1]
-    $s2 = $isub[$isub.indexOf(' ActiveSubInfoList:')+2]
-    
-    if($s1 -ne '++++++++++++++++++++++++++++++++'){
-        $sim1 = $s1.substring($s1.indexOf('displayName=')+12,$s1.indexOf('carrierName=') - ($s1.indexOf('displayName=')+12));
-    }
-    if($s2 -ne '++++++++++++++++++++++++++++++++'){
-        $sim2 = $s2.substring($s2.indexOf('displayName=')+12, $s2.indexOf('carrierName=') - ($s2.indexOf('displayName=')+12));
-        $sim2 = ", $sim2";
-    }
+    $index = $isub.indexOf(' ActiveSubInfoList:')
 
-    "Carriers:$sim1$sim2" >> Versions.txt
-    
+    if($isub[$index+1] -eq '++++++++++++++++++++++++++++++++'){
+        $sim = "N/A"
+    }else{
+        $sim = $isub[$index+1].substring($isub[$index+1].indexOf('displayName=')+12,$isub[$index+1].indexOf('carrierName=') - ($isub[$index+1].indexOf('displayName=')+12));
+        if($isub[$index+2] -ne '++++++++++++++++++++++++++++++++'){
+            $sim += "`t,`t"+$isub[$index+2].substring($isub[$index+2].indexOf('displayName=')+12,$isub[$index+2].indexOf('carrierName=') - ($isub[$index+2].indexOf('displayName=')+12));
+        }
+    }
+    "Carriers:$sim" >> Versions.txt
 }
 
 function getModel() {
@@ -83,12 +81,13 @@ function ckDevice(){
 }
 
 function startSC {
+    setADB
+    ckFile
+    generateTemplet
     DrawScreen
     "`tIncializando, por favor, ative as opções de depuracao USB do device."
     "`tEsperando o device..."
     ckDevice
-    ckFile
-    generateTemplet
 }
 
 function openV {
@@ -132,7 +131,7 @@ function getSettings {
     if($r -eq "1"){
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.santander.app  -n Santander
         getv -p com.bradesco  -n Bradesco
         getv -p br.com.bb.android  -n "Banco do Brasil"
@@ -141,7 +140,7 @@ function getSettings {
     }else{
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.samsung.android.dialer -n Phone
         getv -p com.samsung.android.messaging -n Message
         getv -p com.sec.android.inputmethod -n Keyboard
@@ -165,16 +164,18 @@ function getIc {
     "`t2- 3rd party Exloratorio"
     "`t3- GMS"
     "`t4- Internet"
-    "`t5- Todas as versoes"
+    "`t5- Acessibilidade"
+    "`t6- Game Tools"
+    "`t7- Game Launcher"
     "`t0- Voltar"
     "`n `tInforme a opcao desejada:"
     $r = Read-Host
 
-    $op = ("1" -eq $r) -or ("2" -eq $r) -or ("3" -eq $r) -or ("4" -eq $r) -or ("5" -eq $r) -or ("6" -eq $r) -or ("0" -eq $r)
+    $op = ("1" -eq $r) -or ("2" -eq $r) -or ("3" -eq $r) -or ("4" -eq $r) -or ("5" -eq $r) -or ("6" -eq $r) -or ("0" -eq $r) -or ("7" -eq $r)
     while (!$op) {
         "`t Informe um valor valido:"
         $r = Read-Host
-        $op = ("1" -eq $r) -or ("2" -eq $r) -or ("3" -eq $r) -or ("4" -eq $r) -or ("5" -eq $r) -or ("6" -eq $r) -or ("0" -eq $r)
+        $op = ("1" -eq $r) -or ("2" -eq $r) -or ("3" -eq $r) -or ("4" -eq $r) -or ("5" -eq $r) -or ("6" -eq $r) -or ("0" -eq $r) -or ("7" -eq $r)
     }
     if($r -eq "0"){
         MMenu
@@ -184,7 +185,7 @@ function getIc {
     if($r -eq "1"){
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.facebook.katana  -n Facebook
         getv -p com.whatsapp  -n Whatsapp
         getv -p com.instagram.android  -n Instagram
@@ -200,7 +201,7 @@ function getIc {
     if($r -eq "2"){
         DrawScreen
         "`tChecando Pacotes..." 
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.mercadolibre  -n "Mercado Livre"
         getv -p com.schibsted.bomnegocio.androidApp  -n OLX
         getv -p com.alibaba.aliexpresshd  -n Aliexpress
@@ -210,7 +211,7 @@ function getIc {
     if($r -eq "3"){
         DrawScreen
         "`tChecando Pacotes..." 
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.google.android.apps.map  -n "Google Maps"
         getv -p com.google.android.googlequicksearchbox  -n Google
         getv -p com.android.vending  -n "Google Playstore"
@@ -219,36 +220,30 @@ function getIc {
     if($r -eq "4"){
         DrawScreen
         "`tChecando Pacotes..." 
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.android.chrome  -n Chrome
         getv -p com.sec.android.app.sbrowser  -n "S Browser"
     }
     if($r -eq "5"){
         DrawScreen
         "`tChecando Pacotes..." 
-        "`tPara parar pressione ctrl+c"
-        getv -p com.facebook.katana  -n Facebook
-        getv -p com.whatsapp  -n Whatsapp
-        getv -p com.instagram.android  -n Instagram
-        getv -p com.twitter.android  -n Twitter
-        getv -p com.snapchat.android  -n Snapchat
-        getv -p com.samsung.android.app.spage  -n "Bixby Home"
-        getv -p com.linkedin.android  -n Linkedin
-        getv -p com.facebook.orca  -n "FB Messenger"
-        getv -p com.skype.raider  -n Skype
-        getv -p com.netflix.mediaclient  -n Netflix
-        getv -p com.mercadolibre  -n "Mercado Livre"
-        getv -p com.schibsted.bomnegocio.androidApp  -n OLX
-        getv -p com.alibaba.aliexpresshd  -n Aliexpress
-        getv -p com.booking  -n Booking
-        getv -p com.epicgames.fortnite  -n Fortinite
-        getv -p com.google.android.apps.map  -n "Google Maps"
-        getv -p com.google.android.googlequicksearchbox  -n Google
-        getv -p com.android.vending  -n "Google Playstore"
-        getv -p com.google.android.gms  -n "Google Settings"
-        getv -p com.android.chrome  -n Chrome
-        getv -p com.sec.android.app.sbrowser  -n "S Browser"
+        "`tPara cancelar pressione ctrl+c"
+        getv -p  com.samsung.accessibility  -n "Accessibility"
     }
+    if($r -eq "6"){
+        DrawScreen
+        "`tChecando Pacotes..." 
+        "`tPara cancelar pressione ctrl+c"
+        getv -p com.samsung.android.game.gametools  -n 'Game Tools'
+    }
+    if($r -eq "7"){
+        DrawScreen
+        "`tChecando Pacotes..." 
+        "`tPara cancelar pressione ctrl+c"
+        getv -p com.samsung.android.game.gamehome  -n 'Game Laucher/Booster'
+    }
+
+
     openV        
 }
 
@@ -274,7 +269,7 @@ function getMm {
     if($r -eq "1"){
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.google.android.apps.youtube.music  -n "Youtube Music"
         getv -p com.google.android.apps.youtube.kids  -n "Youtube Kids"
         getv -p com.dts.freefireth  -n "Free Fire"
@@ -286,7 +281,7 @@ function getMm {
     }else{
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.sec.android.app.camera  -n Camera
         getv -p com.samsung.android.voc  -n "Samsung Members"
         getv -p com.samsung.sree  -n "Samsung Global Goals"
@@ -325,7 +320,7 @@ function getApps {
     if($r -eq "1"){
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.gm.decolar  -n Decolar
         getv -p com.ebay.mobile  -n Ebay
         getv -p com.tencent.ig  -n Pubg
@@ -334,7 +329,7 @@ function getApps {
     }else{
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p com.samsung.android.calendar  -n Calendario
         getv -p com.sec.android.app.samsungapps  -n "Galaxy Apps/Store"
         getv -p com.samsung.android.fmm  -n FMM
@@ -344,7 +339,11 @@ function getApps {
         getv -p com.tencent.ig  -n Pubg
         getv -p com.ubercab  -n Uber
         getv -p com.taxis99  -n "99"
-        getv -p com.samsung.android.app.watchmanager  -n "Galaxy Wearable"
+        getv -p com.samsung.android.app.watchmanager -n "Galaxy Wearable"
+        getv -p com.samsung.android.app.reminder  -n "Reminder"
+        getv -p com.samsung.knox.securefolder  -n "Secure Folder"
+        getv -p com.samsung.android.app.spage  -n "Samsung daily/Bixby Home"
+        getv -p com.osp.app.signin  -n "Samsung Account"
     }
 
     openV
@@ -372,16 +371,18 @@ function getCommon {
     if($r -eq "1"){
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p  br.com.brainweb.ifood -n Ifood
         getv -p  com.amazon.mShop.android.shopping -n Amazon
         getv -p  com.gameloft.android.ANMP.GloftA8HM -n "Asphalt 8"
+        getv -p  com.gameloft.android.ANMP.GloftA9HM -n "Asphalt 9"        
+        getv -p  com.gameloft.android.ANMP.GloftAGHM -n "Asphalt Nitro"        
         getv -p  com.supercell.clashroyale -n "Clash Royale"
         getv -p  com.microsoft.skydrive -n "One Drive"
     }else{
         DrawScreen
         "`tChecando Pacotes..."
-        "`tPara parar pressione ctrl+c"
+        "`tPara cancelar pressione ctrl+c"
         getv -p  com.sec.android.app.clockpackage -n Clock
         getv -p  com.samsung.android.scloud -n "Samsung Cloud"
         getv -p  com.samsung.android.authfw -n "Samsung Pass"
@@ -399,8 +400,11 @@ function getCommon {
         getv -p  br.com.brainweb.ifood -n Ifood
         getv -p  com.amazon.mShop.android.shopping -n Amazon
         getv -p  com.gameloft.android.ANMP.GloftA8HM -n "Asphalt 8"
+        getv -p  com.gameloft.android.ANMP.GloftA9HM -n "Asphalt 9"        
+        getv -p  com.gameloft.android.ANMP.GloftAGHM -n "Asphalt Nitro"  
         getv -p  com.supercell.clashroyale -n "Clash Royale"
         getv -p  com.microsoft.skydrive -n "One Drive"
+        getv -p  com.sec.android.app.popupcalculator -n "Calculadora"
     }
 
     openV
@@ -417,7 +421,7 @@ function getA {
     DrawScreen
     "`tChecando Pacotes..."
     "`tPode demorar um pouco..."
-    "`tPara parar pressione ctrl+c"
+    "`tPara cancelar pressione ctrl+c"
     getv -p com.samsung.android.dialer -n "Phone"
     getv -p com.samsung.android.messaging -n "Message"
     getv -p com.sec.android.inputmethod -n "Keyboard"
@@ -488,7 +492,10 @@ function getA {
     getv -p  com.gameloft.android.ANMP.GloftA8HM -n "Asphalt 8"
     getv -p  com.supercell.clashroyale -n "Clash Royale"
     getv -p  com.microsoft.skydrive -n "One Drive"
-    getv -p com.samsung.android.app.watchmanager  -n "Galaxy Wearable"
+    getv -p  com.samsung.android.app.watchmanager  -n "Galaxy Wearable"
+    getv -p  com.samsung.android.app.reminder   -n "Reminder"
+    getv -p  com.samsung.accessibility  -n "Accessibility"
+    getv -p com.samsung.knox.securefolder  -n "Secure Folder"
     openV
 }
 
@@ -543,11 +550,10 @@ function MMenu {
 }
 
 function svc(){
-    setADB
+    startSC
     while(1){
-        startSC
+        
         MMenu
-
     }
 }
 
