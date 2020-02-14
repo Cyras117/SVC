@@ -75,7 +75,11 @@ def getAppVersion(pName,Name):
 
     return Name+": "+version
 
-def wrap():#receber as configs do temp):
+
+def wrap():
+    op = list()
+    arq = list()
+    
 
 
 def getSettingsInfo(op):
