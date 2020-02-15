@@ -68,7 +68,7 @@ def getAppVersion(pName,Name):
 def createDefaultConfigFile():
     defautConfig = ['id:True\n','Pass:True\n','faill:False\n','Model:False\n',
         'os:False\n','cp:False\n','csc:False\n','imei:False\n','simCard:False\n',
-        'accounts:False\n','issues:False']
+        'accounts:False\n','issues:False\n']
     with open('tempconfig.txt','w') as config:
          config.writelines(defautConfig)
     return defautConfig
