@@ -2,30 +2,20 @@
 import subprocess
 import tkinter
 
-def extractSim(stC):
-    stCStart = stC.find('displayName=')+12;
-    stCEnd = stC.find('carrierName',stCStart);
-    carrier = stC[stCStart:stCEnd-1];
-    return carrier
-
 def getCarriers():
-    isub = subprocess.check_output(['adb','shell','dumpsys','isub'],text = True);
-    isubStart = isub.find('ActiveSubInfoList:')+18;
-    isubEnd =isub.find('++++++++++++++++++++++++++++++++',isubStart);
-    if((isubEnd - isubStart) == 1 ):
-        #Sem Carrier
-        return "Carrier: "
-    if((isubEnd - isubStart) < 600):
-        #apenas 1 carrier
-        carrier = extractSim(isub[isubStart+1:(isubEnd - isubStart)]);
-        return "Carrier: "+carrier
-    else:
-        #2 carriers
-        stC = isub[isubStart+1:(isubEnd - isubStart)];
-        arC = stC.split('\n');
-        s1 = extractSim(arC[0]);
-        s2 = extractSim(arC[1]);
-        return "Carriers: "+s1+", "+s2
+    carriers = subprocess.check_output(['adb','shell','getprop','gsm.sim.operator.alpha'],text=True)
+    carriers = carriers.split('\n')[0]
+    carriers = carriers.split(',')
+    if(carriers[0] == '' and carriers[1]==''):
+        return 'Carriers:'
+    if(carriers[0] != '' and carriers[1]!=''):
+        return 'Carriers:'+carriers[0]+','+carriers[1]
+    if(carriers[0] != '' or carriers[1]!=''):
+        if(carriers[0 != '']):
+            return 'Carrier:'+carriers[0]
+        else:
+            return 'Carrier:'+carriers[1]
+
 
 def getModel():
     model = subprocess.check_output(['adb','shell','getprop','ro.product.model'],text=True);
@@ -75,12 +65,27 @@ def getAppVersion(pName,Name):
 
     return Name+": "+version
 
+def createDefaultConfigFile():
+    defautConfig = ['id:True\n','Pass:True\n','faill:False\n','Model:False\n',
+        'os:False\n','cp:False\n','csc:False\n','imei:False\n','simCard:False\n',
+        'accounts:False\n','issues:False']
+    with open('tempconfig.txt','w') as config:
+         config.writelines(defautConfig)
+    return defautConfig
+
+def checkFile():   
+    try:
+        with open('tempconfig.txt','r') as config:
+            configList = config.readlines()
+            for line in configList:
+                line = line.split('\n')[0]
+            return configList
+    except:
+        return createDefaultConfigFile()        
+
 
 def wrap():
-    op = list()
-    arq = list()
-    
-
+    ops = checkFile()
 
 def getSettingsInfo(op):
     aVersions = list()

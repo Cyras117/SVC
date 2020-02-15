@@ -13,8 +13,6 @@ mainScreen.geometry('200x250')
 mainScreen['bg'] = '#8a9ec1'
 #mainScreen.iconbitmap('Iconka-Easter-Egg-Bunny-Blue-demon.ico')#verificar
 
-
-
 #Funçẽs
 def configi():
     print('config.templet')#Configuração de templete
