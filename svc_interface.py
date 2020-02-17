@@ -9,7 +9,7 @@ import svc #falta terminar as funçoẽs
 mainScreen = tkinter.Tk()
 mainScreen.title('SVC')
 mainScreen.resizable(False,False)
-mainScreen.geometry('200x250')
+mainScreen.geometry('250x300')
 mainScreen['bg'] = '#8a9ec1'
 #mainScreen.iconbitmap('Iconka-Easter-Egg-Bunny-Blue-demon.ico')#verificar
 
@@ -19,25 +19,20 @@ def configi():
 def ajudaMenu():
     messagebox.showinfo('Ajuda','Duvidas e sugestões:\nalexsandro.a\nkledyson.f')
 
-
 #Menu_Bar
 menubar = tkinter.Menu(mainScreen)
-menubar.add_command(label='Conf. templete', command=lambda: configi())
+configmenu = tkinter.Menu(menubar,tearoff=0)
+configmenu.add_command(label='Connfig. Templet',command=lambda: screens.tempConfigScreen())
+menubar.add_cascade(label='Config.',menu=configmenu)
 menubar.add_command(label='Ajuda', command=lambda: ajudaMenu())
 
-#Frame_Menu_Principal
-scs = list()
-sSpace = screens.sScreen(mainScreen)
-scs.append(sSpace)
-mSpace = screens.mScreen(mainScreen,scs)
 
-sSpace.getMScreen(mSpace)
+#Gerenciando_Telas
+screens.mFrame(mainScreen)
 
 #mSpace
 #aSpace
 #cSpace
-
-mSpace.pack()
 
 #Main_loop
 mainScreen.config(menu=menubar)
