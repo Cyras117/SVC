@@ -1,4 +1,3 @@
-#!/usr/bin/python3.8
 import subprocess
 import tkinter
 from tkinter import messagebox
@@ -100,7 +99,6 @@ def wrap():
     #checkPhone()
     count = 0
     TempOps = checkConfigTempFile()
-    print(len(TempOps))
     for i in TempOps:
         TempOps[count] = i.split('\n')[0].split(':')
         count = count +1
