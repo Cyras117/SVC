@@ -16,7 +16,6 @@ def getCarriers():
         else:
             return 'Carrier:'+carriers[1]
 
-
 def getModel():
     model = subprocess.check_output(['adb','shell','getprop','ro.product.model'],text=True)
     return "Model: "+model[:-1]
@@ -87,14 +86,11 @@ def checkConfigTempFile():
                 line = line.split('\n')[0]
             return configList
 
-
 def checkPhone():
     subprocess.run(['adb','kill-server'],text=True)
     subprocess.run(['adb','start-server'],text=True)
     subprocess.run(['adb','wait-for-devices'],text=True)
-    
-                     
-
+                  
 def wrap():
     #checkPhone()
     count = 0
@@ -149,8 +145,6 @@ def wrap():
                     v.writelines('Issues:')
             count = count + 1
         count = 0
-        
-
 
 def getSettingsInfo(op):
     wrap()

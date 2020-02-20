@@ -26,7 +26,6 @@ configmenu.add_command(label='Connfig. Templet',command=lambda: screens.tempConf
 menubar.add_cascade(label='Config.',menu=configmenu)
 menubar.add_command(label='Ajuda', command=lambda: ajudaMenu())
 
-
 #Gerenciando_Telas
 screens.mFrame(mainScreen)
 
