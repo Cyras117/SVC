@@ -67,6 +67,8 @@ def tempConfigScreen():
         issues = tkinter.BooleanVar()
 
         #Functions
+        at = svc.checkConfigTempFile()
+
         def createConfigFile():
             with open('tempconfig.txt','w') as f:
                 if(id.get()):
@@ -110,46 +112,77 @@ def tempConfigScreen():
             createConfigFile()
             tt.destroy()
 
-        tkinter.Checkbutton(ttFrame,text='Id',variable=id,
+        cid = tkinter.Checkbutton(ttFrame,text='Id',variable=id,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=10,column=10,sticky='W')
+        onvalue=True, offvalue=False)
         
-        tkinter.Checkbutton(ttFrame,text='Pass',variable=qtd_pass,
+        cpass = tkinter.Checkbutton(ttFrame,text='Pass',variable=qtd_pass,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=10,column=20,sticky='w')
+        onvalue=True, offvalue=False)
 
-        tkinter.Checkbutton(ttFrame,text='Modelo',variable=model,
+        cmodel = tkinter.Checkbutton(ttFrame,text='Modelo',variable=model,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=10,column=30,sticky='w')
+        onvalue=True, offvalue=False)
 
-        tkinter.Checkbutton(ttFrame,text='Os',variable=os,
+        cos = tkinter.Checkbutton(ttFrame,text='Os',variable=os,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=20,column=10,sticky='w')
+        onvalue=True, offvalue=False)
         
-        tkinter.Checkbutton(ttFrame,text='Versão',variable=binary,
+        cbinary = tkinter.Checkbutton(ttFrame,text='Versão',variable=binary,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=20,column=20,sticky='w')
+        onvalue=True, offvalue=False)
 
-        tkinter.Checkbutton(ttFrame,text='CSC',variable=csc,
+        ccsc = tkinter.Checkbutton(ttFrame,text='CSC',variable=csc,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=20,column=30,sticky='w')
+        onvalue=True, offvalue=False)
 
-        tkinter.Checkbutton(ttFrame,text='Chip',variable=carriers,
+        ccarriers = tkinter.Checkbutton(ttFrame,text='Chip',variable=carriers,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=30,column=10,sticky='w')
+        onvalue=True, offvalue=False)
 
-        tkinter.Checkbutton(ttFrame,text='Contas',variable=accounts,
+        ccontas = tkinter.Checkbutton(ttFrame,text='Contas',variable=accounts,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=30,column=20,sticky='w')
+        onvalue=True, offvalue=False)
 
-        tkinter.Checkbutton(ttFrame,text='Issues',variable=issues,
+        cissue = tkinter.Checkbutton(ttFrame,text='Issues',variable=issues,
         bg='#8a9ec1',activebackground='#8a9ec1',
-        onvalue=True, offvalue=False).grid(row=30,column=30,sticky='w')
+        onvalue=True, offvalue=False)
         
         tkinter.Label(ttFrame,text=' ',bg='#8a9ec1').grid(row=45,column=1,sticky='we')
         tkinter.Button(ttFrame,text='Salvar',bg='#5B77A8',
         activebackground='#4f6996',relief='raised',
         bd=1,command= lambda:salvar()).grid(row=50,column=20,sticky='we')
+
+
+        cid.grid(row=10,column=10,sticky='W')
+        cpass.grid(row=10,column=20,sticky='w')
+        cmodel.grid(row=10,column=30,sticky='w')
+        cos.grid(row=20,column=10,sticky='w')
+        cbinary.grid(row=20,column=20,sticky='w')
+        ccsc.grid(row=20,column=30,sticky='w')
+        ccarriers.grid(row=30,column=10,sticky='w')
+        ccontas.grid(row=30,column=20,sticky='w')
+        cissue.grid(row=30,column=30,sticky='w')
+        
+        if(at[0].split(':')[1]=='True\n'):
+            cid.select()
+        if(at[1].split(':')[1]=='True\n'):
+            cpass.select()
+        if(at[2].split(':')[1]=='True\n'):
+            cmodel.select()
+        if(at[3].split(':')[1]=='True\n'):
+            cos.select()
+        if(at[4].split(':')[1]=='True\n'):
+            cbinary.select()
+        if(at[5].split(':')[1]=='True\n'):
+            ccsc.select()
+        if(at[6].split(':')[1]=='True\n'):
+            ccarriers.select()
+        if(at[7].split(':')[1]=='True\n'):
+            ccontas.select()
+        if(at[8].split(':')[1]=='True\n'):
+            cissue.select()
+
 
         ttFrame.pack()
         
