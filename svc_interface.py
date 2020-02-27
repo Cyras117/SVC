@@ -2,32 +2,45 @@ from tkinter import messagebox
 import screens
 import tkinter
 import tkinter.ttk
+import style
 import svc #falta terminar as funçoẽs
-
 
 #Definindo tela principal
 mainScreen = tkinter.Tk()
 mainScreen.title('SVC')
 mainScreen.resizable(False,False)
-mainScreen.geometry('250x300')
-mainScreen['bg'] = '#8a9ec1'
+mainScreen.geometry('225x365')
+mainScreen['bg'] = style.mainColor()
 #mainScreen.iconbitmap('Iconka-Easter-Egg-Bunny-Blue-demon.ico')#verificar
-
+tempMenu = screens.tempConfigScreen(mainScreen)
+mScreen = screens.mFrame(mainScreen)
 #Funçẽs
-def configi():
-    print('config.templet')#Configuração de templete
 def ajudaMenu():
     messagebox.showinfo('Ajuda','Duvidas e sugestões:\nalexsandro.a\nkledyson.f')
 
 #Menu_Bar
 menubar = tkinter.Menu(mainScreen)
 configmenu = tkinter.Menu(menubar,tearoff=0)
-configmenu.add_command(label='Connfig. Templet',command=lambda: screens.tempConfigScreen())
-menubar.add_cascade(label='Config.',menu=configmenu)
-menubar.add_command(label='Ajuda', command=lambda: ajudaMenu())
 
-#Gerenciando_Telas
-screens.mFrame(mainScreen)
+tempMenuState = tkinter.BooleanVar()
+def showHide():
+    if(tempMenuState.get()):
+        tempMenu.grid(row=0,sticky='w')
+    else:
+        tempMenu.grid_forget()
+
+sep = tkinter.Frame(mainScreen,bg=style.mainColor())
+sep.config(width=225)
+sep.grid(row=1)
+
+mScreen.grid(row=5)
+
+configmenu.add_checkbutton(label='Connfig. Templat',variable=tempMenuState,
+onvalue=True,offvalue=False,command=showHide)
+
+menubar.add_cascade(label='Config.',menu=configmenu)
+menubar.add_command(label='Ajuda', command=ajudaMenu)
+
 
 #mSpace
 #aSpace

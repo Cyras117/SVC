@@ -1,3 +1,4 @@
+import json
 import subprocess
 import tkinter
 from tkinter import messagebox
@@ -65,26 +66,31 @@ def getAppVersion(pName,Name):
 
     return Name+': '+version+'\n'
 
-def createDefaultTempConfigFile():
-    defautConfig = ['Id:True\n','Pass:True\n','Model:False\n','Os:False\n',
-        'Binary:False\n','CSC:False\n','Carriers:False\n',
-        'Accounts:False\n','Issues:False']
-    with open('tempconfig.txt','w') as config:
-         config.writelines(defautConfig)
-    return defautConfig
+def createDefaultConfigFile():
+    data = {}
+    data['temp'] = {
+        "id":True,
+        "pass":True,
+        "model":False,
+        "os":False,
+        "binary":False,
+        "csc":False,
+        "carriers":False,
+        "accounts":False,
+        "issues":False
+    }
+    with open('config.json','w') as config:
+         json.dump(data,config)
+    return data
 
-def checkConfigTempFile():
+def checkConfigFile():
     try:
-        with open('tempconfig.txt','r') as config:
-            configList = config.readlines()
-            for line in configList:
-                line = line.split('\n')[0]
-            return configList
+        with open('config.json','r') as config:
+            configdata = json.load(config)
+            return configdata
     except:
-            configList = createDefaultTempConfigFile()
-            for line in configList:
-                line = line.split('\n')[0]
-            return configList
+            configdata = createDefaultConfigFile()
+            return configdata
 
 def checkPhone():
     subprocess.run(['adb','kill-server'],text=True)
@@ -93,58 +99,7 @@ def checkPhone():
                   
 def wrap():
     #checkPhone()
-    count = 0
-    TempOps = checkConfigTempFile()
-    for i in TempOps:
-        TempOps[count] = i.split('\n')[0].split(':')
-        count = count +1
-    
-    count = 0
-    with open('Versions.txt','w+') as v:
-        for op in TempOps:
-            if(count == 0):
-                if(op[1] == 'True'):
-                    #Tela pra pegar o ID
-                    v.write('ID:\n')
-
-            if(count == 1):
-                if(op[1] == 'True'):
-                    #Tela para pegar o pass
-                    v.write('Pass:\n')
-
-            if(count == 2):
-                if(op[1] == 'True'):
-                    m = getModel()
-                    v.write(m+'\n')
-
-            if(count == 3):
-                if(op[1] == 'True'):
-                    os = getOS()
-                    v.write(os+'\n')
-
-            if(count == 4):
-                if(op[1] == 'True'):
-                    pyshit = 0#Rmover
-                    #Função para pegar o binario            
-            if(count == 5):
-                if(op[1] == 'True'):
-                    pyshit = 0
-                    #Função para pegar o CSC
-
-            if(count == 6):
-                if(op[1] == 'True'):
-                    carrier = getCarriers()
-                    v.write(carrier+'\n')
-            if(count == 7):
-                if(op[1] == 'True'):
-                    ac = getAccounts()
-                    v.writelines(ac)
-
-            if(count == 8):
-                if(op[1] == 'True'):
-                    v.writelines('Issues:')
-            count = count + 1
-        count = 0
+    configData = checkConfigFile()
 
 def getSettingsInfo(op):
     wrap()
