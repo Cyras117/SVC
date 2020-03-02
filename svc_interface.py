@@ -3,7 +3,7 @@ import screens
 import tkinter
 import tkinter.ttk
 import style
-import svc #falta terminar as funçoẽs
+import svc
 
 #loadingConfigFile
 svc.loadConfigFile()

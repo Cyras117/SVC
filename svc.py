@@ -253,8 +253,6 @@ def deleteVersionsFile():
         os.remove('Versions.txt')
     except OSError:
         pass
-    
-# def appendToVersions(item):
 
 def fileOpen():
     subprocess.run()#checar no win
