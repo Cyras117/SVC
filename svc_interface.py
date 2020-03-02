@@ -5,6 +5,8 @@ import tkinter.ttk
 import style
 import svc #falta terminar as funçoẽs
 
+#loadingConfigFile
+svc.loadConfigFile()
 #Definindo tela principal
 mainScreen = tkinter.Tk()
 mainScreen.title('SVC')
@@ -40,7 +42,6 @@ onvalue=True,offvalue=False,command=showHide)
 
 menubar.add_cascade(label='Config.',menu=configmenu)
 menubar.add_command(label='Ajuda', command=ajudaMenu)
-
 
 #mSpace
 #aSpace
