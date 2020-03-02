@@ -4,7 +4,9 @@ import tkinter
 import tkinter.ttk
 import style
 import svc
-
+ 
+#Setupadb
+svc.setADB()
 #loadingConfigFile
 svc.loadConfigFile()
 #Definindo tela principal
