@@ -2,29 +2,33 @@ import json
 import subprocess
 import tkinter
 import os
+import time
 import pathlib
 from tkinter import messagebox
 
-def setADB():#Checar no win
-    os.putenv('PATH',pathlib.Path().absolute())
+def setADB():#Checar no win adb tem q ta no folder 
+    os.putenv('PATH',str(pathlib.Path().absolute()))
 
 def getCarriers():
     carriers = subprocess.check_output(['adb','shell','getprop','gsm.sim.operator.alpha'],text=True)
     carriers = carriers.split('\n')[0]
     carriers = carriers.split(',')
-    if(carriers[0] == '' and carriers[1]==''):
-        return 'Carriers:'
-    if(carriers[0] != '' and carriers[1]!=''):
-        return 'Carriers:'+carriers[0]+','+carriers[1]
-    if(carriers[0] != '' or carriers[1]!=''):
-        if(carriers[0 != '']):
-            return 'Carrier:'+carriers[0]
-        else:
-            return 'Carrier:'+carriers[1]
+    if(len(carriers)>1):        
+        if(carriers[0] == '' and carriers[1]==''):
+            return 'Carriers:'
+        if(carriers[0] != '' and carriers[1]!=''):
+            return 'Carriers:'+carriers[0]+','+carriers[1]
+        if(carriers[0] != '' or carriers[1]!=''):
+            if(carriers[0] != ''):
+                return 'Carrier:'+carriers[0]
+            else:
+                return 'Carrier:'+carriers[1]
+    else:
+        return 'Carrier:'+carriers[0]
 
 def getModel():
     model = subprocess.check_output(['adb','shell','getprop','ro.product.model'],text=True)
-    scode = subprocess.check_output(['adb','shell','getprop','ro.boot.sales_code'],text=True)
+    scode = subprocess.check_output(['adb','shell','getprop','ro.csc.sales_code'],text=True)
     return "Model: "+model[:-1]+" ["+scode[:-1]+"]"
 
 def getOS():
@@ -84,15 +88,14 @@ def getCSC():
     return "CSC: "+csc
 
 def getAppVersion(pName,Name):
-    try:
         pkgv = subprocess.check_output(['adb','shell','dumpsys','package',pName,'|','grep','versionName'],text=True)
         versionPosI = pkgv.find('=')+1
         versionPosF = pkgv.find('\n',versionPosI-1)
         version = pkgv[versionPosI:versionPosF]
-        return Name+': '+version+'\n'
-    except:
-        return ''
-
+        if(len(version)>2):
+            return Name+': '+version+'\n'
+        else:
+            return ''
     
 
 def createDefaultConfigFile():
@@ -244,9 +247,10 @@ def loadConfigFile():
             return configdata
 
 def checkPhone():
-    subprocess.run(['adb','kill-server'],text=True)
-    subprocess.run(['adb','start-server'],text=True)
-    subprocess.run(['adb','wait-for-devices'],text=True)
+    #subprocess.run(['adb','kill-server'])
+    subprocess.run(['adb','start-server'])
+    #subprocess.run(['adb','wait-for-devices'])
+    time.sleep(1)
 
 def deleteVersionsFile():
     try:
@@ -255,9 +259,11 @@ def deleteVersionsFile():
         pass
 
 def fileOpen():
-    subprocess.run()#checar no win
+    os.system('Versions.txt')
+    #subprocess.run(['notepad','Versions.txt'])
 
 def wrap():
+    checkPhone()
     temp = list()
     data = loadConfigFile()["temp"]
     deleteVersionsFile()
@@ -297,4 +303,3 @@ def getInfo(time,scope):
     with open('Versions.txt','a') as v:
         v.write('\nVersions:\n')
         v.writelines(lp)
-
