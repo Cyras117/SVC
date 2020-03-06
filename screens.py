@@ -1,7 +1,6 @@
 import tkinter
 import tkinter.ttk
 import svc
-import json
 import style
 
 def tempConfigScreen(master):
@@ -264,7 +263,6 @@ def icScreen(master,qch):
         command= lambda: callScreen(qch)).grid(row=1000,column=0,sticky='we')
 
     sFrame.grid(row=5)
-
 
 def mFrame(master):
     mFrame = tkinter.Frame()
