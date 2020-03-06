@@ -30,7 +30,9 @@ tempMenuState = tkinter.BooleanVar()
 def showHide():
     if(tempMenuState.get()):
         tempMenu.grid(row=0,sticky='w')
+        mainScreen.geometry('225x425')
     else:
+        mainScreen.geometry('225x365')
         tempMenu.grid_forget()
 
 sep = tkinter.Frame(mainScreen,bg=style.mainColor())
