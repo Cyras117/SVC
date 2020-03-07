@@ -7,20 +7,6 @@ import pathlib
 import jsb
 from tkinter import messagebox
 
-def addPkg(name,pkg,teams,scopes):
-    x = {
-        "pkg":pkg,
-        "name":name,
-        "scope":{
-            "teams":teams,
-            "inscope":teams
-        }
-    }
-    jsb.setData(x)
-
-def rmPkg(pkg):
-    jsb.rmData(pkg)
-
 def setADB():#Checar no win adb tem q ta no folder 
     os.putenv('PATH',str(pathlib.Path().absolute()))
 
@@ -103,14 +89,14 @@ def getCSC():
     return "CSC: "+csc
 
 def getAppVersion(pName,Name):
-        pkgv = subprocess.check_output(['adb','shell','dumpsys','package',pName,'|','grep','versionName'],text=True)
-        versionPosI = pkgv.find('=')+1
-        versionPosF = pkgv.find('\n',versionPosI-1)
-        version = pkgv[versionPosI:versionPosF]
-        if(len(version)>2):
+        try:
+            pkgv = subprocess.check_output(['adb','shell','dumpsys','package',pName,'|','grep','versionName'],text=True)
+            versionPosI = pkgv.find('=')+1
+            versionPosF = pkgv.find('\n',versionPosI-1)
+            version = pkgv[versionPosI:versionPosF]
             return Name+': '+version+'\n'
-        else:
-            return ''
+        except:
+            return ''  
 
 def createDefaultConfigFile():
     data = jsb.data
@@ -196,3 +182,4 @@ def getInfo(time,scope):
     with open('Versions.txt','a') as v:
         v.write('\nVersions:\n')
         v.writelines(lp)
+

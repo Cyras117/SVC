@@ -2,6 +2,7 @@ import tkinter
 import tkinter.ttk
 import svc
 import style
+import json
 
 def tempConfigScreen(master):
     ttFrame = tkinter.Frame(master)
@@ -139,10 +140,12 @@ def tempConfigScreen(master):
     return ttFrame
 
 def settingsScreen(master,qch):
+    master.geometry('225x415')
     qch.grid_forget()
     sFrame =  tkinter.Frame()
     sFrame['bg']=style.mainColor()
     def callScreen(mspace):
+            master.geometry('225x370')
             sFrame.destroy()
             mspace.grid(row=5)
 
@@ -201,7 +204,145 @@ def settingsScreen(master,qch):
 
     sFrame.grid(row=5)
 
-def icScreen(master,qch):
+def appsScreen(master,qch):
+    master.geometry('225x415')
+    qch.grid_forget()
+    sFrame =  tkinter.Frame()
+    sFrame['bg']=style.mainColor()
+    def callScreen(mspace):
+        master.geometry('225x370')
+        sFrame.destroy()
+        mspace.grid(row=5)
+
+    tkinter.Button(sFrame,
+        text='Wearables',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','wearable')).grid(row=60,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=70,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Secure Folder',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','secure_folder')).grid(row=80,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=90,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Bixby',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','bixby')).grid(row=100,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=110,column=0,sticky='we')
+    
+    tkinter.Button(sFrame,
+        text='FMM',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','fmm')).grid(row=120,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=130,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='3°Party',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','3rdparty_apps')).grid(row=140,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=150,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='All',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','all')).grid(row=160,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=170,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Voltar',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: callScreen(qch)).grid(row=1000,column=0,sticky='we')
+
+    sFrame.grid(row=5)
+
+def commonScreen(master,qch):
+    master.geometry('225x465')
+    qch.grid_forget()
+    sFrame =  tkinter.Frame()
+    sFrame['bg']=style.mainColor()
+    def callScreen(mspace):
+        master.geometry('225x370')
+        sFrame.destroy()
+        mspace.grid(row=5)
+
+    tkinter.Button(sFrame,
+        text='Samsung Cloud',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('common','samsung_cloud')).grid(row=60,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=70,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Galaxy Themes',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('common','galaxy_themes')).grid(row=80,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=90,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Clock/Calculadora',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('common','clock_calculator')).grid(row=100,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=110,column=0,sticky='we')
+    
+    tkinter.Button(sFrame,
+        text='Samsung Pass',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('common','samsung_pass')).grid(row=120,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=130,column=0,sticky='we')
+    
+    tkinter.Button(sFrame,
+        text='Kids Mode',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('common','kids_mode')).grid(row=135,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=137,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='3°Party',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('common','3rdparty_common')).grid(row=140,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=150,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='All',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('apps','all')).grid(row=160,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=170,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Voltar',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: callScreen(qch)).grid(row=1000,column=0,sticky='we')
+
+    sFrame.grid(row=5)
+
+def mmScreen(master,qch):
     qch.grid_forget()
     sFrame =  tkinter.Frame()
     sFrame['bg']=style.mainColor()
@@ -210,41 +351,33 @@ def icScreen(master,qch):
             mspace.grid(row=5)
 
     tkinter.Button(sFrame,
-        text='Dual Menseger',bg=style.backGroundButtonColor(),
+        text='Camera',bg=style.backGroundButtonColor(),
         activebackground=style.activeBackGroundButtonColor(),relief='raised',
-        command= lambda: svc.getInfo('settings','call')).grid(row=60,column=0,sticky='we')
+        command= lambda: svc.getInfo('mm','camera')).grid(row=60,column=0,sticky='we')
 
     tkinter.Label(sFrame,text=' ',
     bg=style.mainColor()).grid(row=70,column=0,sticky='we')
 
     tkinter.Button(sFrame,
-        text='Message',bg=style.backGroundButtonColor(),
+        text='Samsung Members',bg=style.backGroundButtonColor(),
         activebackground=style.activeBackGroundButtonColor(),relief='raised',
-        command= lambda: svc.getInfo('settings','message')).grid(row=80,column=0,sticky='we')
+        command= lambda: svc.getInfo('mm','samsung_members')).grid(row=80,column=0,sticky='we')
 
     tkinter.Label(sFrame,text=' ',
     bg=style.mainColor()).grid(row=90,column=0,sticky='we')
 
     tkinter.Button(sFrame,
-        text='Settings',bg=style.backGroundButtonColor(),
+        text='Samsung Global Goals',bg=style.backGroundButtonColor(),
         activebackground=style.activeBackGroundButtonColor(),relief='raised',
-        command= lambda: svc.getInfo('settings','settings')).grid(row=100,column=0,sticky='we')
+        command= lambda: svc.getInfo('mm','samsung_global_goals')).grid(row=100,column=0,sticky='we')
 
     tkinter.Label(sFrame,text=' ',
     bg=style.mainColor()).grid(row=110,column=0,sticky='we')
-    
-    tkinter.Button(sFrame,
-        text='Keyboard',bg=style.backGroundButtonColor(),
-        activebackground=style.activeBackGroundButtonColor(),relief='raised',
-        command= lambda: svc.getInfo('settings','keyboard')).grid(row=120,column=0,sticky='we')
-
-    tkinter.Label(sFrame,text=' ',
-    bg=style.mainColor()).grid(row=130,column=0,sticky='we')
 
     tkinter.Button(sFrame,
         text='3°Party',bg=style.backGroundButtonColor(),
         activebackground=style.activeBackGroundButtonColor(),relief='raised',
-        command= lambda: svc.getInfo('settings','3rdparty_settings')).grid(row=140,column=0,sticky='we')
+        command= lambda: svc.getInfo('mm','3rdparty_mm')).grid(row=140,column=0,sticky='we')
 
     tkinter.Label(sFrame,text=' ',
     bg=style.mainColor()).grid(row=150,column=0,sticky='we')
@@ -252,7 +385,88 @@ def icScreen(master,qch):
     tkinter.Button(sFrame,
         text='All',bg=style.backGroundButtonColor(),
         activebackground=style.activeBackGroundButtonColor(),relief='raised',
-        command= lambda: svc.getInfo('settings','all')).grid(row=160,column=0,sticky='we')
+        command= lambda: svc.getInfo('mm','all')).grid(row=160,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=170,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Voltar',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: callScreen(qch)).grid(row=1000,column=0,sticky='we')
+
+    sFrame.grid(row=5)
+
+def icScreen(master,qch):
+    master.geometry('225x517')
+    qch.grid_forget()
+    sFrame =  tkinter.Frame()
+    sFrame['bg']=style.mainColor()
+    def callScreen(mspace):
+        master.geometry('225x370')
+        sFrame.destroy()
+        mspace.grid(row=5)
+
+    tkinter.Button(sFrame,
+        text='Dual Menseger',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','dual_messenger')).grid(row=60,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=70,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='GMS',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','gms')).grid(row=80,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=90,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Internet',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','internet')).grid(row=100,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=110,column=0,sticky='we')
+    
+    tkinter.Button(sFrame,
+        text='Accessibility',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','accessibility')).grid(row=120,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=130,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Game Launcher',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','game_launcher')).grid(row=131,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=132,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='Game Tools',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','game_tools')).grid(row=133,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=134,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='3°Party',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','3rdparty_ic')).grid(row=140,column=0,sticky='we')
+
+    tkinter.Label(sFrame,text=' ',
+    bg=style.mainColor()).grid(row=150,column=0,sticky='we')
+
+    tkinter.Button(sFrame,
+        text='All',bg=style.backGroundButtonColor(),
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command= lambda: svc.getInfo('ic','all')).grid(row=160,column=0,sticky='we')
 
     tkinter.Label(sFrame,text=' ',
     bg=style.mainColor()).grid(row=170,column=0,sticky='we')
@@ -278,17 +492,19 @@ def mFrame(master):
 
     bapps = tkinter.Button(mFrame,text='Apps',
         bg=style.backGroundButtonColor(),activebackground=style.activeBackGroundButtonColor(),
-        relief='raised')
+        relief='raised',command=lambda: appsScreen(master,mFrame))
 
     bic = tkinter.Button(mFrame,text='IC',bg=style.backGroundButtonColor(),
         activebackground=style.activeBackGroundButtonColor(),relief='raised',
         command=lambda: icScreen(master,mFrame))
 
     bmm = tkinter.Button(mFrame,text='MM',bg=style.backGroundButtonColor(),
-        activebackground=style.activeBackGroundButtonColor(),relief='raised')
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command=lambda: mmScreen(master,mFrame))
 
     bcommon = tkinter.Button(mFrame,text='Common',bg=style.backGroundButtonColor(),
-        activebackground=style.activeBackGroundButtonColor(),relief='raised')
+        activebackground=style.activeBackGroundButtonColor(),relief='raised',
+        command=lambda: commonScreen(master,mFrame))
 
     btemp.config(width=10)
     bsettings.config(width=10)

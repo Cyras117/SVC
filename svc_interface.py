@@ -13,7 +13,7 @@ svc.loadConfigFile()
 mainScreen = tkinter.Tk()
 mainScreen.title('SVC')
 mainScreen.resizable(False,False)
-mainScreen.geometry('225x365')
+mainScreen.geometry('225x370')
 mainScreen['bg'] = style.mainColor()
 #mainScreen.iconbitmap('Iconka-Easter-Egg-Bunny-Blue-demon.ico')#verificar
 tempMenu = screens.tempConfigScreen(mainScreen)
@@ -30,9 +30,7 @@ tempMenuState = tkinter.BooleanVar()
 def showHide():
     if(tempMenuState.get()):
         tempMenu.grid(row=0,sticky='w')
-        mainScreen.geometry('225x425')
     else:
-        mainScreen.geometry('225x365')
         tempMenu.grid_forget()
 
 sep = tkinter.Frame(mainScreen,bg=style.mainColor())
@@ -46,10 +44,6 @@ onvalue=True,offvalue=False,command=showHide)
 
 menubar.add_cascade(label='Config.',menu=configmenu)
 menubar.add_command(label='Ajuda', command=ajudaMenu)
-
-#mSpace
-#aSpace
-#cSpace
 
 #Main_loop
 mainScreen.config(menu=menubar)
