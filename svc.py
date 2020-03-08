@@ -98,9 +98,47 @@ def getAppVersion(pName,Name):
         except:
             return ''  
 
+def addPkg(pkg,name,team,scope):
+    data = loadConfigFile()
+    if(not(pkg in data['pkgs'])):
+        data['pkgs'].append({
+            "pkg":pkg,
+            "name":name,
+            "scope":{
+                "teams": [team],
+                "inscope": ['all',scope]
+            }
+        })
+    else:
+        for p in data['pkgs']:
+            if(p['pkg']==pkg):
+                if(not(team in p['scope']['teams'])):
+                    data['pkgs'][data['pkgs'].index(p)]['scope']['teams'].append(team)
+                if(not(scope in p['scope']['inscope'])):
+                    data['pkgs'][data['pkgs'].index(p)]['scope']['inscope'].append(scope)
+    with open('config.json','w') as f:
+        json.dump(data,f)
+    return 'Pacote adicionado!'
+    
+def rmPkg(pkg,team):
+    data = loadConfigFile()
+    if(pkg in data['pkgs']):
+        for p in data['pkgs']:
+            if(p['pkg'] == pkg):
+                if(len(p['scope']['teams']) <=2):
+                    data['pkgs'].remove(p)
+                else:
+                    for t in p['scope']['teams']:
+                        if(t == team):
+                            data['pkgs'][data['pkgs'].index(p)]['scope']['teams'].remove(team)
+        with open('config.json','w') as f:
+            json.dump(data,f)
+        return 'Pacote removido!'
+    else:
+        return 'Pacote não existe!'
+
 def createDefaultConfigFile():
     data = jsb.data
-
     with open('config.json','w') as config:
          json.dump(data,config)
     return data
@@ -141,7 +179,7 @@ def fileOpen():
     os.system('Versions.txt')#verificar encerrar o sub processo
     #subprocess.run(['notepad','Versions.txt'])
 
-def wrap():
+def wrap(op=None):
     checkPhone()
     temp = list()
     data = loadConfigFile()["temp"]
@@ -170,13 +208,16 @@ def wrap():
 
     with open('Versions.txt','w') as v:
         v.writelines(temp)
+    
+    if(op != None):
+        fileOpen()
 
 def getInfo(time,scope):
     wrap()
     data = loadConfigFile()
     lp = list()
     for p in data["pkgs"]:
-        if(time in p["scope"]["teams"]):
+        if(time in p["scope"]["teams"] or time == 'all'):
             if(scope in p["scope"]["inscope"]):
                 lp.append(getAppVersion(p["pkg"],p["name"]))
     with open('Versions.txt','a') as v:

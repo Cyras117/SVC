@@ -1,3 +1,4 @@
 # svc
 
-A simple script using PowerShell and adb to get some information from Android devices.
+A simple script using Python to get info about the Android
+device via usb.

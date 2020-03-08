@@ -103,7 +103,7 @@ data['pkgs']=[{
         "name":"Call Service",
         "scope":{
             "teams":["settings"],
-            "inscope":["call","all","sanity"]
+            "inscope":["call","all"]
         }
     },
     {
@@ -303,7 +303,7 @@ data['pkgs']=[{
         "name":"Game Laucher",
         "scope":{
             "teams":["ic"],
-            "inscope":["game_laucher","all"]
+            "inscope":["game_launcher","all"]
         }
     },
     {
@@ -423,7 +423,7 @@ data['pkgs']=[{
         "name":"Samsung Global Goals",
         "scope":{
             "teams":["mm"],
-            "inscope":["samsung_global_goals","all"]
+            "inscope":["global_goals","all"]
         }
     },
     {

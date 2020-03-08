@@ -13,7 +13,7 @@ svc.loadConfigFile()
 mainScreen = tkinter.Tk()
 mainScreen.title('SVC')
 mainScreen.resizable(False,False)
-mainScreen.geometry('225x370')
+mainScreen.geometry(style.mainSize())
 mainScreen['bg'] = style.mainColor()
 #mainScreen.iconbitmap('Iconka-Easter-Egg-Bunny-Blue-demon.ico')#verificar
 tempMenu = screens.tempConfigScreen(mainScreen)
@@ -34,13 +34,15 @@ def showHide():
         tempMenu.grid_forget()
 
 sep = tkinter.Frame(mainScreen,bg=style.mainColor())
-sep.config(width=225)
+sep.config(width=230)
 sep.grid(row=1)
 
 mScreen.grid(row=5)
 
 configmenu.add_checkbutton(label='Connfig. Templat',variable=tempMenuState,
 onvalue=True,offvalue=False,command=showHide)
+configmenu.add_command(label='Adicionar Pacote', command=lambda: screens.addScreen(mainScreen))
+configmenu.add_command(label='Remover Pacote',command=lambda: screens.rmScreen(mainScreen))
 
 menubar.add_cascade(label='Config.',menu=configmenu)
 menubar.add_command(label='Ajuda', command=ajudaMenu)
